@@ -1,3 +1,4 @@
+Python 3.14.0
 ```sh
 # Windows
 python -m venv venv
