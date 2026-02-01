@@ -130,7 +130,6 @@ class AutoClicker(QWidget):
         self.click_timer.start(interval)
 
     def click(self):
-        # Реальный клик мыши
         self.mouse.press(Button.left)
         self.mouse.release(Button.left)
 
