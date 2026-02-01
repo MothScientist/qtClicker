@@ -44,19 +44,19 @@ class AutoClicker(QWidget):
         # --- UI ---
         layout = QVBoxLayout(self)
 
-        layout.addWidget(QLabel('Click interval (ms):'))
+        layout.addWidget(QLabel('Click interval (50-10000 ms):'))
         self.interval_box = QSpinBox()
         self.interval_box.setRange(50, 10_000)
         self.interval_box.setValue(100)
         layout.addWidget(self.interval_box)
 
         # --- Anti-detect ---
-        self.anti_detect_checkbox = QCheckBox('Antidetect (interval +- %)')
+        self.anti_detect_checkbox = QCheckBox('Antidetect (interval +- 5-75%)')
         layout.addWidget(self.anti_detect_checkbox)
 
         diff_layout = QVBoxLayout()
         self.diff_box = QSpinBox()
-        self.diff_box.setRange(0, 75)
+        self.diff_box.setRange(5, 75)
         self.diff_box.setValue(10)
         self.diff_box.setEnabled(False)
         diff_layout.addWidget(self.diff_box)
@@ -66,7 +66,7 @@ class AutoClicker(QWidget):
             lambda state: self.diff_box.setEnabled(state)
         )
 
-        layout.addWidget(QLabel('Timer (sec, 0 = off):'))
+        layout.addWidget(QLabel('Timer (0-3600 sec, 0 = off):'))
         self.duration_box = QSpinBox()
         self.duration_box.setRange(0, 3600)
         self.duration_box.setValue(0)
@@ -75,7 +75,7 @@ class AutoClicker(QWidget):
         self.status_label = QLabel('Status: Stopped')
         layout.addWidget(self.status_label)
 
-        layout.addWidget(QLabel('F1 — Start\nF2 — Stop'))
+        layout.addWidget(QLabel('F8 — Start\nF9 — Stop'))
 
         # --- Global hotkeys ---
         Thread(target=self.start_hotkeys, daemon=True).start()
@@ -83,9 +83,9 @@ class AutoClicker(QWidget):
     # --- Global hotkeys thread ---
     def start_hotkeys(self):
         def on_press(key):
-            if key == keyboard.Key.f1:
+            if key == keyboard.Key.f8:
                 self.signals.start.emit()
-            elif key == keyboard.Key.f2:
+            elif key == keyboard.Key.f9:
                 self.signals.stop.emit()
 
         with keyboard.Listener(on_press=on_press) as listener:
